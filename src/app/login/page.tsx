@@ -1,17 +1,21 @@
 'use client'
-import '../assets/logo_google.png'
 import logoGG from '../assets/img/logo_gg.png'
 import logoApple from '../assets/img/logo_apple.png'
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import logoKidsPlaza from '../assets/img/logo_kidsplaza.png'
 import Link from 'next/link';
-
+import { GoogleLogin } from '@react-oauth/google';
+import { ChangeEvent, useState } from 'react';
+import english from '../assets/language/english.png'
+import vietnam from '../assets/language/vietnam.png'
+import france from '../assets/language/france.png'
 interface FormInputs {
     email: string,
     password: string
+    
 }
 
 const schema = Yup.object().shape({
@@ -20,6 +24,7 @@ const schema = Yup.object().shape({
 
 })
 const Login = () => {
+    const [selectedOptionLanguage, setSelectedOptionLanguage] = useState('english')
     const { register, handleSubmit, formState } = useForm<FormInputs>({
         resolver: yupResolver(schema),
     })
@@ -27,6 +32,25 @@ const Login = () => {
         // event.preventDefault();
         console.log(data)
     }
+    const handleChangeLanguage = (event:ChangeEvent<HTMLSelectElement>) =>{
+        setSelectedOptionLanguage(event.target.value)
+    }
+
+    // imagePath : StaticImageData| string;
+    const ImagePath = () => {
+        let imagePath: StaticImageData| string = ""
+
+        if(selectedOptionLanguage === 'english'){
+            imagePath = english
+        } else if(selectedOptionLanguage === 'vietnam'){
+            imagePath = vietnam
+        }else if(selectedOptionLanguage === 'france'){
+            imagePath = france
+        }
+        return imagePath
+    }
+
+
     return (
         <div className="flex items-center justify-center bg-gray-100  ">
             <div className="flex flex-col items-center justify-center w-full text-center ">
@@ -39,17 +63,16 @@ const Login = () => {
                                 <p className='text-[14px] leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
                             </div>
                             <div className='flex flex-col items-center md:flex-row md:justify-center mt-[15px] '>
-                                <button className='flex flex-row pl-[45px] md:pl-[0]  border-solid border-2 border-[#E7E5E4] rounded md:w-[185px] w-[230px] '>
-                                    <Image
-                                        src={logoGG}
-                                        width={28}
-                                        height={28}
-                                        alt="Picture Google"
-                                        className='md:ml-[20px]'
+                                <GoogleLogin 
+                                    onSuccess={credentialResponse => {
+                                        console.log(credentialResponse);
+                                    }}
+                                    onError={() => {
+                                        console.log('Login Failed');
+                                    }} 
+
                                     />
-                                    <p className='text-[12px] font-[400] pt-[4px] md:pl-[5px]'>Sign in with Google</p>
-                                </button>
-                                <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-2 border-[#E7E5E4] p-[4px] rounded md:w-[185px] w-[230px] md:mt-[0] mt-[10px] md:ml-[30px] '>
+                                <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[213px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px] '>
                                     <Image
                                         src={logoApple}
                                         width={17}
@@ -86,14 +109,16 @@ const Login = () => {
                         </div>
                         <div className='flex justify-around my-[25px]'>
                             <div className='flex justify-start text-[12px]'>
-                                <label className='border-2 rounded-[12px] border-[#E7E5E4]'>test</label>
-                                <select>
-                                    <option>English</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
+                                <label className='rounded-[12px] '>
+                                    <Image src={ImagePath()} alt='language' width={20} height={20}/>
+                                </label>
+                                <select value={selectedOptionLanguage} onChange={handleChangeLanguage} className='' >
+                                    <option value='english'>English</option>
+                                    <option value='vietnam'>VietNam</option>
+                                    <option value='france'>France</option>
                                 </select>
                             </div>
+
                             <div className='flex flex-row justify-between w-[150px] font-sans text-[#3B82F6] font-[500] text-[12px]'>
                                 <p className='cursor-pointer'>Term</p>
                                 <p className='cursor-pointer'>Plans</p>

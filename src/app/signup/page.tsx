@@ -1,19 +1,28 @@
 'use client'
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import '../assets/logo_google.png'
 import logoGG from '../assets/img/logo_gg.png'
 import logoApple from '../assets/img/logo_apple.png'
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import Link from 'next/link'
 import PasswordStrengthBar from "react-password-strength-bar";
 import logoKidsPlaza from '../assets/img/logo_kidsplaza.png'
+import ReactDOM from 'react-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import english from '../assets/language/english.png'
+import vietnam from '../assets/language/vietnam.png'
+import france from '../assets/language/france.png'
+
+// import { GoogleOAuthProvider } from '@react-oauth/google';
+// import { GoogleLogin } from '@react-oauth/google';
 interface FormInputs {
     email: string,
     password: string,
     repeatPassword: string
+    // isChecked: boolean
 }
 
 
@@ -25,6 +34,12 @@ password: Yup.string().required('Password is required !').max(190,'Maximum lengt
 const SignUp  = () => {
     const [password, setPassword] = useState('')
     const [repeatPassword, setRepeatPassword] = useState('')
+    const [selectedOptionLanguage, setSelectedOptionLanguage] = useState('english')
+    // const [valueChecked , setValueChecked] = useState(false)
+    const [isChecked, setIsChecked] = useState(false)
+
+    
+
     const { register, handleSubmit, formState } = useForm<FormInputs>({
         resolver: yupResolver(schema),
     })
@@ -32,23 +47,54 @@ const SignUp  = () => {
 
     const onSubmit = (data: FormInputs) => 
     {
-        console.log(data)
+        if(repeatPassword === password && isChecked === true){
+            alert("Register Success!")
+            console.log(data)
+        }
+        else if(repeatPassword !== password){
+            alert('Passwords do not match')
+        }else if(isChecked === false){
+            alert('Please checked')
+        }
     }
     const handlePasswordChange = (event : React.ChangeEvent<HTMLInputElement>) =>{
         setPassword(event.target.value)
     }
+    const handleRepeatChangePassword = (event : React.ChangeEvent<HTMLInputElement>) =>{
+        setRepeatPassword(event.target.value)
+    }
+
     const scoreWords = [
-       'Very Weak',
-       'Weak',
-       'Fair',
+        'Very Weak',
+        'Weak',
+        'Fair',
         'Good',
         'Strong',
     ];
+    const handleChangeLanguage = (event:ChangeEvent<HTMLSelectElement>) =>{
+        setSelectedOptionLanguage(event.target.value)
+    }
 
-    const shortScoreWord = "Use 8 or more characters with a mix of letters, numbers & symbols";
+    const ImagePath = () =>{
+        let imagePath : StaticImageData | string = ''
+        if(selectedOptionLanguage === 'english'){
+            imagePath = english
+        } else if(selectedOptionLanguage === 'vietnam'){
+            imagePath = vietnam
+        } else if(selectedOptionLanguage === 'france'){
+            imagePath = france
+        }
+        return imagePath
+    }
 
-    
+    const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsChecked(event.target.checked);
+    };
+
+
+
   return (
+
     <div className="flex items-center justify-center bg-gray-100  ">
         <div className="flex flex-col items-center justify-center w-full text-center ">
                 <div className='bg-white flex font-sans w-full flex-col md:flex-row'>
@@ -60,17 +106,15 @@ const SignUp  = () => {
                                 <p className='text-[14px] leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
                             </div>
                             <div className='flex flex-col items-center md:flex-row md:justify-center mt-[15px] '>
-                                        <button className='flex flex-row pl-[45px] md:pl-[0]  border-solid border-2 border-[#E7E5E4] rounded md:w-[185px] w-[230px] '>
-                                            <Image
-                                            src={logoGG}
-                                            width={28}
-                                            height={28}
-                                            alt="Picture Google"
-                                            className='md:ml-[20px]'
-                                            />
-                                            <p className='text-[12px] font-[400] pt-[4px] md:pl-[5px]'>Sign in with Google</p>
-                                            </button>
-                                        <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-2 border-[#E7E5E4] p-[4px] rounded md:w-[185px] w-[230px] md:mt-[0] mt-[10px] md:ml-[30px] '>
+
+                                        <GoogleLogin onSuccess={credentialResponse => {
+                                                        console.log(credentialResponse);
+                                                    }}
+                                                    onError={() => {
+                                                        console.log('Login Failed');
+                                                    }} />
+
+                                        <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[213px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px]'>
                                             <Image
                                             src={logoApple}
                                             width={17}
@@ -92,24 +136,27 @@ const SignUp  = () => {
                                                 {formState.errors.email && (
                                                     <span className='flex justify-end text-red-500'>{formState.errors.email.message}</span>
                                                     )}
-                                            <input {...register('password')} onChange={handlePasswordChange} id='password' className='w-[235px] md:w-[400px] border-2 border-[#E7E5E4] mt-[15px] rounded-[4px] p-[6px] placeholder:text-[12px] placeholder:font-400' name='password' placeholder='Password' type='text'/>
+                                            <input {...register('password')} onChange={handlePasswordChange} id='password' className='w-[235px] md:w-[400px] border-2 border-[#E7E5E4] mt-[15px] rounded-[4px] p-[6px] placeholder:text-[12px] placeholder:font-400' name='password' placeholder='Password' type='password'/>
                                                 {formState.errors.password && (
                                                     <span className='flex justify-end text-red-500 ' >{formState.errors.password.message}</span>
                                                 )}
 
-                                            <div>
-                                                <PasswordStrengthBar password={password} 
+                                                <PasswordStrengthBar password={password}
                                                 scoreWords={scoreWords}
-                                                // shortScoreWord={<p className="text-[11px] flex justify-center break-word ">Use 8 or more characters with a mix of letters, numbers & symbols</p>}
+                                                // shortScoreWord={<span className="text-[13px] break-word flex justify-start ">Use 8 or more characters with a mix of letters, numbers & symbols</span>}
+                                                // shortScoreWord={shortScoreWord}
+                                                shortScoreWord = 'Mix of letters, numbers & symbols'
                                                 />
-                                            </div>
-                                            <input className='w-[235px] md:w-[400px] border-2 border-[#E7E5E4] mt-[15px] rounded-[4px] p-[6px] placeholder:text-[12px] placeholder:font-400' name='repeatPassword' placeholder='Repeat Password' type='text'/>
+                                            <input onChange={handleRepeatChangePassword} className='w-[235px] md:w-[400px] border-2 border-[#E7E5E4] mt-[15px] rounded-[4px] p-[6px] placeholder:text-[12px] placeholder:font-400' name='repeatPassword' placeholder='Repeat Password' type='password'/>
 
-                                            <div className='flex justify-start leading-[40px] font-400 text-[13px] mt-[5px]'> 
-                                                    <input type='checkbox' className='w-[18px] accent-[#3B82F6]' id="checked-checkbox"/>
+                                            <div className='flex justify-start leading-[40px] font-400 text-[13px] mt-[5px]'>
+                                                    <input 
+                                                    onChange={handleCheckboxChange}
+                                                    checked={isChecked}
+                                                    // onChange={handleChangeChecked}  
+                                                    type='checkbox' className='w-[18px] accent-[#3B82F6]' id="checked-checkbox"  />
                                                     <label className='ml-[6px]'>I Accept the <span className='text-[#3B82F6] ml-[3px] font-700'> Terms</span></label>
                                             </div>
-
                                             <button className='border-[#3B82F6] border-2 mt-[15px] rounded-[4px] bg-[#3B82F6] text-white p-[5px] ' type='submit' disabled={formState.isSubmitting}>Sign Up</button>
                                             <div className='font-400 text-[12px] mt-[15px]'><p className=''>Already have an Account? <Link href='/login' className='text-[#3B82F6] cursor-pointer'>Sign in</Link></p></div>
 
@@ -120,24 +167,23 @@ const SignUp  = () => {
                         </div>
                         <div className=' justify-around hidden md:flex '>
                             <div className='flex justify-start text-[12px]'>
-                                <label className='border-2 rounded-[12px] border-[#E7E5E4]'>test</label>
-                                <select>
-                                    <option>English</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
+                                <label className='rounded-[12px] '>
+                                    <Image src={ImagePath()} alt='language' width={20} height={20}/>
+                                </label>
+                                <select value={selectedOptionLanguage} onChange={handleChangeLanguage} className='' >
+                                    <option value='english'>English</option>
+                                    <option value='vietnam'>VietNam</option>
+                                    <option value='france'>France</option>
                                 </select>
                             </div>
                             <div className='flex flex-row justify-between w-[150px] font-sans text-[#3B82F6] font-[500] text-[12px]'>
                                 <p className='cursor-pointer'>Term</p>
                                 <p className='cursor-pointer'>Plans</p>
                                 <p className='cursor-pointer'>Contact Us</p>
-
                             </div>
                         </div>
 
                     </div>
-
                     <div  className=' hidden md:block  bg-[#0668FC] w-6/12'>
                         <div className='flex justify-center items-center'>
                             <Image src={logoKidsPlaza} alt='Logo KidsPlaza' width={200} height={200}/>

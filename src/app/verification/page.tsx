@@ -1,14 +1,36 @@
-import React from 'react'
+'use client'
+import React, { ChangeEvent, useState } from 'react'
 import '../assets/logo_google.png'
 import logoGG from '../assets/img/logo_gg.png'
 import logoApple from '../assets/img/logo_apple.png'
-import Image from 'next/image';
+import Image, { StaticImageData } from 'next/image';
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as Yup from 'yup'
 import logoKidsPlaza from '../assets/img/logo_kidsplaza.png'
 import picturePhone from '../assets/img/phone.png'
-const page = () => {
+import english from '../assets/language/english.png'
+import vietnam from '../assets/language/vietnam.png'
+import france from '../assets/language/france.png'
+const Page = () => {
+
+    const [selectedOptionLanguage, setSelectedOptionLanguage] = useState('english')
+
+    const handleChangeLanguage = (event:ChangeEvent<HTMLSelectElement>) =>{
+        setSelectedOptionLanguage(event.target.value)
+    }
+
+    const ImagePath = () =>{
+        let imagePath : StaticImageData | string = ''
+        if(selectedOptionLanguage === 'english'){
+            imagePath = english
+        } else if(selectedOptionLanguage === 'vietnam'){
+            imagePath = vietnam
+        } else if(selectedOptionLanguage === 'france'){
+            imagePath = france
+        }
+        return imagePath
+    }
   return (
     <div className='flex justify-center items-center bg-gray-100'>
         <div className="flex flex-col items-center justify-center w-full text-center ">
@@ -30,7 +52,7 @@ const page = () => {
                             <div className=" xl:px-[150px] flex flex-col h-full ">
                                 <p className="px-[34px] md:px-[0] flex justify-start mt-3">Type your 6 digit security code</p>
 
-                                <div className='hidden md:grid grid-cols-6 justify-items-stretch '>
+                                <div className='hidden md:grid grid-cols-6 justify-items-stretch  mt-[10px]'>
                                         <input type="text"
                                         id=""
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
@@ -75,13 +97,6 @@ const page = () => {
                                     </div>
                                 </div>
 
-                                    {/* <input type="text"
-                                    id=""
-                                    name="" className="col-start-1 col-end-3 w-[40px] h-[40px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                    <input type="text"
-                                    id=""
-                                    name="" className="col-end-6 col-span-1 w-[40px] h-[40px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/> */}
-
                                 <div className="flex justify-center h-full items-center">
                                     <button
                                     type="button"
@@ -97,16 +112,16 @@ const page = () => {
                                 </p>
                                 </div>
 
-
                         </div>
                         <div className=' justify-around flex  mt-[50px]'>
                             <div className='flex justify-start text-[12px]'>
-                                <label className='border-2 rounded-[12px] border-[#E7E5E4]'>test</label>
-                                <select>
-                                    <option>English</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
-                                    <option>abc</option>
+                                <label className='rounded-[12px] '>
+                                    <Image src={ImagePath()} alt='language' width={20} height={20}/>
+                                </label>
+                                <select value={selectedOptionLanguage} onChange={handleChangeLanguage} className='' >
+                                    <option value='english'>English</option>
+                                    <option value='vietnam'>VietNam</option>
+                                    <option value='france'>France</option>
                                 </select>
                             </div>
                             <div className='flex flex-row justify-between w-[150px] font-sans text-[#3B82F6] font-[500] text-[12px]'>
@@ -130,4 +145,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
