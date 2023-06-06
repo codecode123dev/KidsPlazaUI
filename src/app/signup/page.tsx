@@ -95,11 +95,11 @@ const SignUp  = () => {
 
   return (
 
-    <div className="flex items-center justify-center bg-gray-100  ">
-        <div className="flex flex-col items-center justify-center w-full text-center ">
+    <div className="">
+        <div className="flex flex-col items-center justify-center text-center ">
                 <div className='bg-white flex font-sans w-full flex-col md:flex-row'>
                     <div className='bg-[#0668FC] md:hidden flex justify-center p-[10px] '><Image src={logoKidsPlaza} alt='logo kids'/></div>
-                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12'>
+                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12 h-[100vh]'>
                         <div className='md:p-[20px]'>
                             <div>
                                 <p className=' font-bold text-xl'>Sign Up</p>

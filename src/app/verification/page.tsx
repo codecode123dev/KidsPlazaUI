@@ -37,7 +37,7 @@ const Page = () => {
                 <div className='bg-white flex font-sans w-full flex-col md:flex-row '>
                     <div className='bg-[#0668FC] md:hidden flex justify-center p-[10px] '><Image src={logoKidsPlaza} alt='logo kids'/></div>
 
-                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12 '>
+                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12 h-[100vh] '>
                         <div className='md:p-[20px] '>
                             <div className='flex justify-center mb-[30px]' >
                                 <Image className='' src={picturePhone} alt='phone' width={40} height={40}/>
