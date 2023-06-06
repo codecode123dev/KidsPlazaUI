@@ -1,5 +1,5 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useRef, useState } from 'react'
 import '../assets/logo_google.png'
 import logoGG from '../assets/img/logo_gg.png'
 import logoApple from '../assets/img/logo_apple.png'
@@ -31,13 +31,20 @@ const Page = () => {
         }
         return imagePath
     }
+
+    const inputRefs = [useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null), useRef<HTMLInputElement>(null)];
+
+    const onInputChange = (index: number) => (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (index < inputRefs.length - 1 && event.target.value.length > 0) {
+        inputRefs[index + 1].current?.focus();
+        }
+    };
   return (
-    <div className='flex justify-center items-center bg-gray-100'>
-        <div className="flex flex-col items-center justify-center w-full text-center ">
-                <div className='bg-white flex font-sans w-full flex-col md:flex-row '>
+        <div className="text-center ">
+                <div className='flex font-sans w-full flex-col md:flex-row h-[100vh] '>
                     <div className='bg-[#0668FC] md:hidden flex justify-center p-[10px] '><Image src={logoKidsPlaza} alt='logo kids'/></div>
 
-                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12 h-[100vh] '>
+                    <div  className='p-[10px] pt-[80px] w-full md:w-6/12 h-[100vh] '>
                         <div className='md:p-[20px] '>
                             <div className='flex justify-center mb-[30px]' >
                                 <Image className='' src={picturePhone} alt='phone' width={40} height={40}/>
@@ -52,47 +59,58 @@ const Page = () => {
                             <div className=" xl:px-[150px] flex flex-col h-full ">
                                 <p className="px-[34px] md:px-[0] flex justify-start mt-3">Type your 6 digit security code</p>
 
-                                <div className='hidden md:grid grid-cols-6 justify-items-stretch  mt-[10px]'>
-                                        <input type="text"
-                                        id=""
+                                {/* <div className='hidden md:grid grid-cols-6 justify-items-center  mt-[10px]'>
+                                        <input type="number"
+                                        min="1" max="1"
+                                        id="input1"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input2"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input3"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input4"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input5"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input6"
                                         name="" className=" w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
+                                </div> */}
+
+                                <div className='hidden md:grid grid-cols-6 justify-items-center  mt-[10px]'>
+                                    {[...Array(6)].map((_, index) => (
+                                        <input key={index} ref={inputRefs[index]} type="number" min="1" max="1" id={`input${index + 1}`} 
+                                        name="" className="w-[45px] h-[45px] border-[1px] rounded-[5px] border-[#DEDEDE]" 
+                                        placeholder='' onChange={onInputChange(index)} />
+                                    ))}
                                 </div>
+
+
                                 <div className='px-[32px] md:hidden '>
                                     <div className="grid grid-cols-4 justify-items-center">
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input7"
                                         name="" className=" w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input8"
                                         name="" className=" w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input9"
                                         name="" className=" w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input10"
                                         name="" className=" w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
                                     </div>
                                     <div className='grid grid-cols-4 justify-items-center mt-[8px]'>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input11"
                                         name="" className=" w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
-                                        <input type="text"
-                                        id=""
+                                        <input type="number"
+                                        id="input12"
                                         name="" className=" col-start-4 col-end-4  w-[68px] h-[68px] border-[1px] rounded-[5px] border-[#DEDEDE] " placeholder=''/>
                                     </div>
                                 </div>
@@ -141,7 +159,6 @@ const Page = () => {
                     </div>
                 </div>
         </div>
-    </div>
   )
 }
 

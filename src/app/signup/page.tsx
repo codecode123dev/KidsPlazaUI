@@ -64,7 +64,7 @@ const SignUp  = () => {
         setRepeatPassword(event.target.value)
     }
 
-    const scoreWords = [
+    const scoreWords: string[] = [
         'Very Weak',
         'Weak',
         'Fair',
@@ -96,25 +96,25 @@ const SignUp  = () => {
   return (
 
     <div className="">
-        <div className="flex flex-col items-center justify-center text-center ">
-                <div className='bg-white flex font-sans w-full flex-col md:flex-row'>
+        <div className="text-center ">
+                <div className='flex font-sans w-full flex-col md:flex-row h-[100vh]'>
                     <div className='bg-[#0668FC] md:hidden flex justify-center p-[10px] '><Image src={logoKidsPlaza} alt='logo kids'/></div>
-                    <div  className='p-[10px] pt-[15px] w-full md:w-6/12 h-[100vh]'>
+                    <div  className='p-[10px] pt-[36px] w-full md:w-6/12 h-[100vh]'>
                         <div className='md:p-[20px]'>
                             <div>
-                                <p className=' font-bold text-xl'>Sign Up</p>
-                                <p className='text-[14px] leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
+                                <p className=' font-bold text-2xl md:text-xl'>Sign Up</p>
+                                <p className='text-lg md:text-[14px] leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
                             </div>
-                            <div className='flex flex-col items-center md:flex-row md:justify-center mt-[15px] '>
-
+                            <div className='flex flex-col items-center md:flex-row md:justify-center mt-[25px] '>
+                                <div className='w-[230px]'>
                                         <GoogleLogin onSuccess={credentialResponse => {
                                                         console.log(credentialResponse);
                                                     }}
                                                     onError={() => {
                                                         console.log('Login Failed');
-                                                    }} />
-
-                                        <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[213px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px]'>
+                                                    }}  />
+                                </div>
+                                        <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[230px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px]'>
                                             <Image
                                             src={logoApple}
                                             width={17}
@@ -123,10 +123,10 @@ const SignUp  = () => {
                                             className='md:ml-[28px]'
                                             /> <p className='text-[12px] font-[400] pl-[5px] md:pl-[7px]'>Sign in with Apple</p></button>
                             </div>
-                            <div className='my-[30px]'>
-                                <div className='border-[#E7E5E4] border-[1px] w-[70px] md:w-[155px] inline-block mb-[4px] '></div>
-                                <span className='mx-[8px] text-[#A1A1AA] text-[12px]'>Or with email</span>
-                                <div className='border-[#E7E5E4] border-[1px] w-[70px] md:w-[155px] inline-block mb-[4px] '></div>
+                            <div className='my-[30px] px-[50px] md:px-[0]'>
+                                <div className='border-[#E7E5E4] border-[1px] w-[65px] md:w-[155px] inline-block mb-[4px] '></div>
+                                <span className='mx-[8px] text-[#A1A1AA] md:text-[12px] text-[16px]'>Or with email</span>
+                                <div className='border-[#E7E5E4] border-[1px] w-[61px] md:w-[155px] inline-block mb-[4px] '></div>
                             </div>
 
                             <div className='flex flex-col  '>
@@ -149,7 +149,7 @@ const SignUp  = () => {
                                                 />
                                             <input onChange={handleRepeatChangePassword} className='w-[235px] md:w-[400px] border-2 border-[#E7E5E4] mt-[15px] rounded-[4px] p-[6px] placeholder:text-[12px] placeholder:font-400' name='repeatPassword' placeholder='Repeat Password' type='password'/>
 
-                                            <div className='flex justify-start leading-[40px] font-400 text-[13px] mt-[5px]'>
+                                            <div className='flex justify-start leading-[40px] font-400 text-[13px] mt-[10px]'>
                                                     <input 
                                                     onChange={handleCheckboxChange}
                                                     checked={isChecked}

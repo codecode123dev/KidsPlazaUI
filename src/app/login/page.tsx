@@ -52,27 +52,25 @@ const Login = () => {
 
 
     return (
-        <div className="flex items-center justify-center bg-gray-100  ">
-            <div className="flex flex-col items-center justify-center w-full text-center ">
-                <div className='bg-white flex font-sans w-full flex-col md:flex-row'>
+            <div className="text-center ">
+                <div className='flex font-sans w-full flex-col md:flex-row h-[100vh]'>
                     <div className='bg-[#0668FC] md:hidden flex justify-center p-[10px] '><Image src={logoKidsPlaza} alt='logo kids' /></div>
-                    <div className='p-[10px] pt-[15px] w-full md:w-6/12 h-[100vh] '>
+                    <div className='p-[10px] pt-[100px] md:pt-[50px] w-full md:w-6/12 h-[100vh]'>
                         <div className='md:p-[20px]'>
                             <div>
-                                <p className=' font-bold text-xl'>Sign In</p>
-                                <p className='text-[14px] leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
+                                <p className=' font-bold text-2xl md:text-xl '>Sign In</p>
+                                <p className='text-lg md:text-[14px]  leading-[2rem] text-[#A1A1AA]'>Your Social Campaigns</p>
                             </div>
                             <div className='flex flex-col items-center md:flex-row md:justify-center mt-[15px] '>
-                                <GoogleLogin 
-                                    onSuccess={credentialResponse => {
-                                        console.log(credentialResponse);
-                                    }}
-                                    onError={() => {
-                                        console.log('Login Failed');
-                                    }} 
-
-                                    />
-                                <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[213px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px] '>
+                                <div className='w-[230px]'>
+                                        <GoogleLogin onSuccess={credentialResponse => {
+                                                        console.log(credentialResponse);
+                                                    }}
+                                                    onError={() => {
+                                                        console.log('Login Failed');
+                                                    }}  />
+                                </div>
+                                <button className='flex flex-row pl-[50px]  md:pl-[0]  border-solid border-[1px] border-[#E7E5E4] pt-[6px] md:pt-[10px] p-[4px] rounded md:w-[203px] md:h-[40px] w-[230px] h-[38px] md:mt-[0] mt-[10px] md:ml-[10px] '>
                                     <Image
                                         src={logoApple}
                                         width={17}
@@ -107,7 +105,7 @@ const Login = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className='flex justify-around my-[25px]'>
+                        <div className='flex justify-around my-[15px]'>
                             <div className='flex justify-start text-[12px]'>
                                 <label className='rounded-[12px] '>
                                     <Image src={ImagePath()} alt='language' width={20} height={20}/>
@@ -136,7 +134,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-        </div>
     )
 }
 
